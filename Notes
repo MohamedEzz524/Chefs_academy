@@ -1,0 +1,71 @@
+<option value="popular" disabled>Most Popular</option>
+<option value="time" disabled>Cooking Time</option>
+
+// Handle Overlapping Events
+export const useEscapeKey = (isActive = true, handler, priority = "normal") => {
+  useEffect(() => {
+    if (!isActive) return;
+
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        handler();
+        if (priority === "high") {
+          e.stopImmediatePropagation(); // Block lower priority handlers
+        }
+        e.preventDefault();
+      }
+    };
+
+    // High priority uses capturing phase (runs first)
+    window.addEventListener(
+      "keydown", 
+      handleEscape, 
+      priority === "high" // useCapture boolean
+    );
+    
+    return () => window.removeEventListener(
+      "keydown", 
+      handleEscape, 
+      priority === "high"
+    );
+  }, [isActive, handler, priority]);
+};
+
+// Usage:
+useEscapeKey(showFavorites, () => setShowFavorites(false), "high"); // Runs first
+useEscapeKey(true, () => setShowDetails(false)); // Runs only if favorites didn't handle
+
+/*
+High Priority (modal/dialogs):
+jsx
+
+useEscapeKey(isOpen, closeHandler, "high");
+
+    Uses capturing phase
+
+    Stops other handlers
+
+Normal Priority:
+jsx
+
+    useEscapeKey(isOpen, closeHandler);
+
+        Uses bubbling phase
+
+        Runs only if no high-priority handler stopped propagation
+
+This ensures proper handler sequencing while maintaining component isolation.
+*/
+
+The third parameter in your useEscapeKey hook (priority) controls both the event handling phase and propagation behavior, but your current implementation has some logical inconsistencies. Here's the complete explanation:
+What the Third Parameter Controls:
+
+    Event Phase (Capture vs Bubble):
+
+        When true: Listener runs in capture phase (from window down to target)
+
+        When false (default): Listener runs in bubble phase (from target up to window)
+
+    Propagation Behavior:
+
+        Your custom "Low"/"High" logic determines whether to block other handlers
