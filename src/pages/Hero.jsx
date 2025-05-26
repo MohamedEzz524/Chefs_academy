@@ -1,7 +1,6 @@
 import { lightArr, darkArr } from "../_Data";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "../assets/images/Logo2.png";
 
 const ourStats = [
   { id: "s1", title: "Recipes", value: "1000" },
@@ -46,7 +45,6 @@ const Hero = ({ theme }) => {
     preloadImages.forEach((src) => {
       new Image().src = src;
     }, []);
-    console.log("Hero fired");
 
     const startTime = performance.now();
     const duration = 2000;
@@ -124,16 +122,6 @@ const Hero = ({ theme }) => {
       {/* Hero Content */}
 
       <div className=" relative pt-10 container z-10 flex items-start justify-center flex-col gap-10">
-        {/* Logo */}
-        {/* <motion.img
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ type: "spring", stiffness: 300 }}
-          src={logo}
-          alt="Logo"
-          className="relative sm:mb-20 w-32 h-16 bg-black/10 dark:bg-white/10 backdrop-blur-xl rounded-sm shadow-sm"
-        /> */}
-
         {/* Hero */}
 
         <motion.div

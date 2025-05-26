@@ -4,6 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base:"/Chefs_academy/"
+  base: "/Chefs_academy/",
   plugins: [react(), tailwindcss()],
 });
